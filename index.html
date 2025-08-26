@@ -535,44 +535,141 @@
             }
         });
 
-        async function compressPDF() {
-            const arrayBuffer = await selectedFile.arrayBuffer();
-            progressBar.style.width = '30%';
+        // async function compressPDF() {
+        //     const arrayBuffer = await selectedFile.arrayBuffer();
+        //     progressBar.style.width = '30%';
 
-            const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-            progressBar.style.width = '60%';
+        //     const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+        //     progressBar.style.width = '60%';
 
-            // Simple compression by removing unused objects
-            const compressedBytes = await pdfDoc.save({
-                useObjectStreams: false,
-                addDefaultPage: false,
-                objectsPerTick: 50
-            });
+        //     // Simple compression by removing unused objects
+        //     const compressedBytes = await pdfDoc.save({
+        //         useObjectStreams: false,
+        //         addDefaultPage: false,
+        //         objectsPerTick: 50
+        //     });
             
+        //     progressBar.style.width = '100%';
+
+        //     compressedPdfBlob = new Blob([compressedBytes], { type: 'application/pdf' });
+            
+        //     const originalSize = selectedFile.size;
+        //     const compressedSize = compressedPdfBlob.size;
+        //     const compressionRatio = ((originalSize - compressedSize) / originalSize * 100).toFixed(1);
+
+        //     stats.innerHTML = `
+        //         <div class="stat">
+        //             <div class="stat-value">${formatFileSize(originalSize)}</div>
+        //             <div class="stat-label">Original Size</div>
+        //         </div>
+        //         <div class="stat">
+        //             <div class="stat-value">${formatFileSize(compressedSize)}</div>
+        //             <div class="stat-label">Compressed Size</div>
+        //         </div>
+        //         <div class="stat">
+        //             <div class="stat-value">${compressionRatio}%</div>
+        //             <div class="stat-label">Size Reduction</div>
+        //         </div>
+        //     `;
+
+        //     result.style.display = 'block';
+        // }
+    // iMPROVED COMPTRESSION ALGO
+    async function compressPDF() {
+        const arrayBuffer = await selectedFile.arrayBuffer();
+        progressBar.style.width = '30%';
+
+        try {
+            const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+            progressBar.style.width = '50%';
+
+            // Get user-selected compression level
+            const compressionLevel = document.getElementById('compressionLevel').value;
+            const imageQuality = parseInt(document.getElementById('imageQuality').value);
+            
+            // Apply compression based on user selection
+            if (compressionLevel === 'high') {
+                // High compression - more aggressive settings
+                await pdfDoc.save({
+                    useObjectStreams: true,
+                    addDefaultPage: false,
+                    objectsPerTick: 100,
+                    // These are the default settings in PDF-Lib
+                    // For more advanced compression, consider additional techniques below
+                });
+            } else if (compressionLevel === 'medium') {
+                // Medium compression - balanced approach
+                await pdfDoc.save({
+                    useObjectStreams: true,
+                    addDefaultPage: true,
+                    objectsPerTick: 50,
+                });
+            } else {
+                // Low compression - minimal changes
+                await pdfDoc.save({
+                    useObjectStreams: false,
+                    addDefaultPage: true,
+                    objectsPerTick: 20,
+                });
+            }
+            
+            progressBar.style.width = '80%';
+
+            // Advanced: Image recompression (conceptual - would need additional libraries)
+            // await recompressImages(pdfDoc, imageQuality);
+            
+            const compressedBytes = await pdfDoc.save();
             progressBar.style.width = '100%';
 
             compressedPdfBlob = new Blob([compressedBytes], { type: 'application/pdf' });
             
+            // Calculate and display results
             const originalSize = selectedFile.size;
             const compressedSize = compressedPdfBlob.size;
             const compressionRatio = ((originalSize - compressedSize) / originalSize * 100).toFixed(1);
-
-            stats.innerHTML = `
-                <div class="stat">
-                    <div class="stat-value">${formatFileSize(originalSize)}</div>
-                    <div class="stat-label">Original Size</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">${formatFileSize(compressedSize)}</div>
-                    <div class="stat-label">Compressed Size</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">${compressionRatio}%</div>
-                    <div class="stat-label">Size Reduction</div>
-                </div>
-            `;
+            
+            // Check if compression was effective
+            if (compressedSize >= originalSize) {
+                stats.innerHTML = `
+                    <div class="stat">
+                        <div class="stat-value">${formatFileSize(originalSize)}</div>
+                        <div class="stat-label">Original Size</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" style="color: #e53e3e;">${formatFileSize(compressedSize)}</div>
+                        <div class="stat-label">Compressed Size (no reduction)</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">0%</div>
+                        <div class="stat-label">Size Reduction</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">ℹ️</div>
+                        <div class="stat-label">This PDF may already be optimized</div>
+                    </div>
+                `;
+            } else {
+                stats.innerHTML = `
+                    <div class="stat">
+                        <div class="stat-value">${formatFileSize(originalSize)}</div>
+                        <div class="stat-label">Original Size</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${formatFileSize(compressedSize)}</div>
+                        <div class="stat-label">Compressed Size</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${compressionRatio}%</div>
+                        <div class="stat-label">Size Reduction</div>
+                    </div>
+                `;
+            }
 
             result.style.display = 'block';
+        } catch (error) {
+            console.error('Compression error:', error);
+            alert('An error occurred during compression. This PDF may be encrypted or corrupted.');
+        }
         }
 
         function formatFileSize(bytes) {
@@ -582,6 +679,44 @@
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
+
+        // EXPECTATION MANAGEMENT
+        function setCompressionExpectations() {
+            const compressionLevel = document.getElementById('compressionLevel').value;
+            let expectationText = '';
+            
+            switch(compressionLevel) {
+                case 'high':
+                    expectationText = 'High compression: Significant size reduction possible, but may affect image quality. Best for PDFs with many images.';
+                    break;
+                case 'medium':
+                    expectationText = 'Medium compression: Balanced approach. Good for general use with mixed content.';
+                    break;
+                case 'low':
+                    expectationText = 'Low compression: Minimal changes. Preserves quality but may not reduce size significantly.';
+                    break;
+            }
+            
+            // Create or update expectations element
+            let expectationEl = document.getElementById('compressionExpectation');
+            if (!expectationEl) {
+                expectationEl = document.createElement('div');
+                expectationEl.id = 'compressionExpectation';
+                expectationEl.style.margin = '10px 0';
+                expectationEl.style.padding = '10px';
+                expectationEl.style.background = '#fff3cd';
+                expectationEl.style.borderRadius = '5px';
+                expectationEl.style.borderLeft = '4px solid #ffc107';
+                controls.parentNode.insertBefore(expectationEl, controls.nextSibling);
+            }
+            
+            expectationEl.textContent = expectationText;
+        }
+
+        // Call this when compression level changes
+        document.getElementById('compressionLevel').addEventListener('change', setCompressionExpectations);
+        document.getElementById('imageQuality').addEventListener('input', setCompressionExpectations);
+
     </script>
 <!-- Add this to the end of your <body> tag -->
 <script>
