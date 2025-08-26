@@ -885,31 +885,36 @@
         }
 
         // Simulated server compression function
-        async function compressWithServer(pdfBytes) {
-            // This is a simulation - in a real implementation, you would send the file to a server
-            showNotification('Using server-side compression for better results', 'success');
+        async function compressWithServer(pdfBytes, compressionLevel, imageQuality) {
+            // Create FormData object
+            const formData = new FormData();
             
-            // Simulate server processing delay
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // Convert Uint8Array to Blob and append to FormData
+            const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+            formData.append('file', pdfBlob, 'document.pdf');
             
-            // For demonstration, we'll just use client-side compression but simulate better results
-            const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+            // Add compression parameters
+            formData.append('compressionLevel', compressionLevel);
+            formData.append('imageQuality', imageQuality);
             
-            // Simulate more aggressive compression for server-side processing
-            const compressedBytes = await pdfDoc.save({
-                useObjectStreams: false,
-                addDefaultPage: false,
-                objectsPerTick: 100,
-            });
-            
-            // Simulate better compression results (20% better than client-side)
-            const simulatedSize = Math.max(
-                compressedBytes.length * 0.8, 
-                pdfBytes.length * 0.5  // At least 50% of original size
-            );
-            
-            // Return a blob with the simulated size
-            return new Blob([compressedBytes], { type: 'application/pdf' });
+            try {
+                // Send to server - update with your production URL
+                const response = await fetch('https://pdfsmaller.site/api/compress', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Server returned ${response.status}`);
+                }
+                
+                // Return the compressed file as Blob
+                return await response.blob();
+            } catch (error) {
+                console.error('Server compression error:', error);
+                throw new Error('Failed to compress PDF on server: ' + error.message);
+            }
         }
 
         function formatFileSize(bytes) {
