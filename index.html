@@ -3,7 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDFSmaller - Compress Your PDFs</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>PDFSmaller - Compress PDF Files Online for Free | Privacy First</title>
+    <meta name="title" content="PDFSmaller - Compress PDF Files Online for Free | Privacy First">
+    <meta name="description" content="Reduce PDF file size online without losing quality. 100% free, secure, and works directly in your browser. No uploads, no server processing.">
+    <meta name="keywords" content="compress pdf, reduce pdf size, pdf compressor, shrink pdf, pdf tool, privacy pdf compression">
+    <meta name="author" content="PDFSmaller">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pdfsmaller.site/">
+    <meta property="og:title" content="PDFSmaller - Compress PDF Files Online for Free">
+    <meta property="og:description" content="Reduce PDF file size online without losing quality. 100% free, secure, and works directly in your browser. No uploads, no server processing.">
+    <meta property="og:image" content="https://pdfsmaller.site/images/social-preview.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pdfsmaller.site/">
+    <meta property="twitter:title" content="PDFSmaller - Compress PDF Files Online for Free">
+    <meta property="twitter:description" content="Reduce PDF file size online without losing quality. 100% free, secure, and works directly in your browser. No uploads, no server processing.">
+    <meta property="twitter:image" content="https://pdfsmaller.site/images/social-preview.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdfsmaller.site/">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%233182ce'/><rect x='35' y='40' width='30' height='20' rx='2' fill='white'/><path d='M40 45H60V50H40z M40 55H60V60H40z' fill='%233182ce'/><circle cx='65' cy='40' r='4' fill='%23e53e3e'/><path d='M62 40L65 37L68 40' stroke='white' stroke-width='1.5' fill='none'/></svg>">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PDFSmaller",
+      "url": "https://pdfsmaller.site/",
+      "description": "Reduce PDF file size online without losing quality. 100% free, secure, and works directly in your browser.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "features": "Client-side processing, No file uploads, Privacy-focused"
+    }
+    </script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <style>
         * {
@@ -17,11 +64,26 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
         }
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
@@ -68,9 +130,10 @@
         }
 
         .upload-icon {
-            font-size: 3rem;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
             color: #667eea;
-            margin-bottom: 20px;
         }
 
         .upload-text {
@@ -168,6 +231,19 @@
             border-radius: 10px;
             margin: 20px 0;
             border-left: 4px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .file-icon {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+        }
+
+        .file-details {
+            flex-grow: 1;
         }
 
         .file-name {
@@ -207,6 +283,12 @@
             margin-top: 30px;
         }
 
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+        }
+
         .compression-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -242,6 +324,14 @@
             box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
         }
 
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -254,16 +344,35 @@
             .upload-area {
                 padding: 40px 20px;
             }
+
+            .compression-stats {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
+    <div class="logo-container">
+        <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="25" width="60" height="50" rx="5" fill="#3182ce"/>
+            <path d="M35 40H65V45H35z M35 50H65V55H35z M35 60H65V65H35z" fill="white"/>
+            <circle cx="75" cy="35" r="5" fill="#e53e3e"/>
+            <path d="M70 35L75 30L80 35" stroke="white" stroke-width="2" fill="none"/>
+        </svg>
         <h1>PDFSmaller</h1>
+    </div>
+    
+    <div class="container">
         <p class="subtitle">Compress your PDF files quickly and securely</p>
         
-        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-            <div class="upload-icon">📄</div>
+        <div class="upload-area" id="uploadArea">
+            <svg class="upload-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" fill="#4a5568" opacity="0.1"/>
+                <path d="M50 35V65M35 50H65" stroke="#667eea" stroke-width="8" stroke-linecap="round"/>
+                <rect x="30" y="25" width="40" height="30" rx="3" fill="#667eea" opacity="0.2"/>
+                <path d="M40 35H60V40H40z M40 45H60V50H40z" fill="#667eea"/>
+            </svg>
             <div class="upload-text">Drop your PDF here or click to browse</div>
             <div class="upload-subtext">Maximum file size: 50MB</div>
         </div>
@@ -271,8 +380,14 @@
         <input type="file" id="fileInput" accept=".pdf" />
         
         <div id="fileInfo" class="file-info" style="display: none;">
-            <div class="file-name" id="fileName"></div>
-            <div class="file-size" id="fileSize"></div>
+            <svg class="file-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="25" y="25" width="50" height="50" rx="5" fill="#3182ce"/>
+                <path d="M35 40H65V45H35z M35 50H65V55H35z M35 60H65V65H35z" fill="white"/>
+            </svg>
+            <div class="file-details">
+                <div class="file-name" id="fileName"></div>
+                <div class="file-size" id="fileSize"></div>
+            </div>
         </div>
         
         <div id="controls" class="controls">
@@ -301,11 +416,19 @@
         </div>
         
         <div id="result" class="result">
-            <h3>✅ Compression Complete!</h3>
+            <svg class="success-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" fill="#38a169"/>
+                <path d="M30 50L45 65L70 35" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
+            </svg>
+            <h3>Compression Complete!</h3>
             <div class="compression-stats" id="stats"></div>
             <button id="downloadBtn" class="btn download-btn">Download Compressed PDF</button>
         </div>
     </div>
+
+    <footer>
+        <p>PDFSmaller.site - Your files are processed locally in your browser for maximum privacy</p>
+    </footer>
 
     <script>
         let selectedFile = null;
@@ -345,6 +468,10 @@
             }
         });
 
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 handleFileSelect(e.target.files[0]);
@@ -370,7 +497,7 @@
             fileName.textContent = file.name;
             fileSize.textContent = formatFileSize(file.size);
             
-            fileInfo.style.display = 'block';
+            fileInfo.style.display = 'flex';
             controls.style.display = 'block';
             compressBtn.style.display = 'block';
             result.style.display = 'none';
