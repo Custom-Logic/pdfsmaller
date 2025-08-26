@@ -583,5 +583,11 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
     </script>
+<!-- Add this to the end of your <body> tag -->
+<script>
+  // Load Vercel Analytics
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>    
 </body>
 </html>
