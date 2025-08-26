@@ -466,3 +466,120 @@
             animation: pulse 1.5s infinite;
         }
     
+
+
+        /* Social Sharing Styles */
+.social-sharing {
+    margin: 20px 0;
+    padding: 20px;
+    background: var(--gray-100);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.social-sharing h3 {
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: white;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.share-btn-native {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.share-btn-facebook {
+    background: linear-gradient(135deg, #1877f2, #42a5f5);
+}
+
+.share-btn-twitter {
+    background: linear-gradient(135deg, #1da1f2, #0d8bd9);
+}
+
+.share-btn-linkedin {
+    background: linear-gradient(135deg, #0077b5, #005885);
+}
+
+.share-btn-whatsapp {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+}
+
+.share-btn-telegram {
+    background: linear-gradient(135deg, #0088cc, #006699);
+}
+
+.share-btn-reddit {
+    background: linear-gradient(135deg, #ff4500, #cc3700);
+}
+
+.share-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+.share-stats {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 0.9rem;
+    color: var(--gray-600);
+}
+
+.share-count {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .share-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .share-btn {
+        width: 200px;
+    }
+}
+
+/* Success animation */
+@keyframes shareSuccess {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.share-btn.shared {
+    animation: shareSuccess 0.3s ease;
+}
