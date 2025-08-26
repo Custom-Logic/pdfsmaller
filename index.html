@@ -561,25 +561,7 @@ async function compressWithServer(pdfBytes, compressionLevel, imageQuality) {
             }, 3000);
         }
 
-        function resetUI() {
-            selectedFile = null;
-            compressedPdfBlob = null;
-            fileInput.value = '';
-            fileInfo.style.display = 'none';
-            compressBtn.disabled = true;
-            results.style.display = 'none';
-            resultPlaceholder.style.display = 'block';
-            progressBar.style.width = '0%';
-            progressPercentage.textContent = '0%';
-            serverInfo.style.display = 'none';
-            serverProcessing.checked = false;
-        }
 
-        // Initialize
-        updateProgress(0);
-
-</script>
-<script>
 // Social sharing functionality
 class SocialSharing {
     constructor() {
@@ -823,6 +805,28 @@ function resetUI() {
     // Hide social sharing
     socialSharing.hideSharingPanel();
 }
+
+
+        function resetUI() {
+            selectedFile = null;
+            compressedPdfBlob = null;
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+            compressBtn.disabled = true;
+            results.style.display = 'none';
+            resultPlaceholder.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressPercentage.textContent = '0%';
+            serverInfo.style.display = 'none';
+            serverProcessing.checked = false;
+
+            socialSharing.hideSharingPanel();
+        }
+
+        // Initialize
+        updateProgress(0);
+
 </script>
+
 </body>
 </html>
