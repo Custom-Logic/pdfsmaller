@@ -901,7 +901,7 @@
                     method: 'POST',
                     body: formData
                 });
-                
+                console.log('Backend Response Status: ', response.ok);
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.error || `Server returned ${response.status}`);
