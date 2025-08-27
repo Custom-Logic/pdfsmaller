@@ -1732,6 +1732,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Download button
+    document.getElementById('singleDownloadBtn').addEventListener('click', () => {
+        if (appState.compressedBlob) {
+            const url = URL.createObjectURL(appState.compressedBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `compressed_${appState.singleFile.name}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+        }
+    });
+
 
 
 
