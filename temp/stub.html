@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDFSmaller Pro - Advanced PDF Compression</title>
+
+<!-- External Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+<style>
+/* Existing styles remain the same */
+
+/* New styles for pricing section */
+.pricing-container {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.pricing-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.pricing-header h2 {
+    font-size: 2.5rem;
+    color: var(--gray-800);
+    margin-bottom: 16px;
+}
+
+.pricing-header p {
+    font-size: 1.2rem;
+    color: var(--gray-600);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.pricing-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 30px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid var(--gray-200);
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-card.featured {
+    border-color: var(--premium);
+    transform: scale(1.05);
+}
+
+.pricing-card.featured::before {
+    content: 'MOST POPULAR';
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--premium);
+    color: white;
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-bottom-left-radius: 8px;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.pricing-card.featured:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+
+.plan-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 16px;
+}
+
+.plan-price {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--premium);
+    margin-bottom: 8px;
+}
+
+.plan-price .currency {
+    font-size: 1.5rem;
+    vertical-align: super;
+}
+
+.plan-price .period {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--gray-600);
+}
+
+.plan-description {
+    color: var(--gray-600);
+    margin-bottom: 30px;
+    min-height: 60px;
+}
+
+.plan-features {
+    list-style: none;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.plan-features li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+}
+
+.plan-features li:last-child {
+    border-bottom: none;
+}
+
+.feature-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    color: var(--success);
+}
+
+.plan-cta {
+    margin-top: auto;
+}
+
+.current-plan-badge {
+    background: var(--success);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-top: 16px;
+    display: inline-block;
+}
+
+.faq-section {
+    margin-top: 80px;
+    padding: 40px 0;
+    background: var(--gray-50);
+    border-radius: 16px;
+}
+
+.faq-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    color: var(--gray-800);
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.faq-question {
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.faq-answer {
+    color: var(--gray-600);
+    line-height: 1.6;
+}
+
+/* Responsive adjustments for pricing */
+@media (max-width: 768px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .pricing-card.featured {
+        transform: none;
+    }
+    
+    .pricing-card.featured:hover {
+        transform: translateY(-5px);
+    }
+    
+    .pricing-header h2 {
+        font-size: 2rem;
+    }
+    
+    .pricing-header p {
+        font-size: 1rem;
+    }
+}
+</style>
+</head>
+
+<body>
+<header class="header">
+    <div class="header-content">
+        <div class="logo-container">
+            <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="25" width="60" height="50" rx="5" fill="#3182ce"/>
+                <path d="M35 40H65V45H35z M35 50H65V55H35z M35 60H65V65H35z" fill="white"/>
+                <circle cx="75" cy="35" r="5" fill="#e53e3e"/>
+                <path d="M70 35L75 30L80 35" stroke="white" stroke-width="2" fill="none"/>
+            </svg>
+            <a href="#" class="logo-text">PDFSmaller Pro</a>
+        </div>
+        
+        <div class="nav-actions">
+            <div id="guestActions" class="flex gap-3">
+                <button class="btn" onclick="showAuthModal('login')">Sign In</button>
+                <button class="btn btn-premium" onclick="switchTab('pricing')">Get Pro</button>
+            </div>
+            
+            <div id="userActions" class="user-menu hidden">
+                <div class="user-avatar" onclick="toggleUserDropdown()">
+                    <span id="userInitials">U</span>
+                </div>
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="dropdown-item">
+                        <strong id="userName">User</strong>
+                        <span id="userPlan" class="plan-badge">Free</span>
+                    </div>
+                    <div class="dropdown-item" onclick="switchTab('pricing')">
+                        <span>Upgrade Plan</span>
+                    </div>
+                    <div class="dropdown-item" onclick="logout()">
+                        <span>Sign Out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="tab-container">
+        <nav class="tab-nav">
+            <button class="tab-button active" onclick="switchTab('single')">Single PDF</button>
+            <button class="tab-button" onclick="switchTab('bulk')">Bulk Processing</button>
+            <button class="tab-button" onclick="switchTab('pricing')">Pricing</button>
+        </nav>
+        
+        <div class="tab-content">
+            <!-- Single PDF Compression -->
+            <div id="singleTab" class="tab-panel active">
+                <!-- Existing single PDF content -->
+            </div>
+
+            <!-- Bulk Processing -->
+            <div id="bulkTab" class="tab-panel">
+                <!-- Existing bulk processing content -->
+            </div>
+
+            <!-- Pricing Section -->
+            <div id="pricingTab" class="tab-panel">
+                <div class="pricing-container">
+                    <div class="pricing-header">
+                        <h2>Choose Your Plan</h2>
+                        <p>Select the plan that works best for your PDF compression needs. All plans include our core features with additional benefits for Pro users.</p>
+                    </div>
+
+                    <div class="pricing-grid">
+                        <!-- Free Plan -->
+                        <div class="pricing-card">
+                            <div class="plan-name">Free</div>
+                            <div class="plan-price">
+                                <span class="currency">$</span>0
+                                <span class="period">/ forever</span>
+                            </div>
+                            <div class="plan-description">Perfect for occasional users with basic needs</div>
+                            
+                            <ul class="plan-features">
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Single file processing</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> 50MB file size limit</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Basic compression</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Client-side processing</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg> No bulk processing</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg> No server processing</li>
+                            </ul>
+                            
+                            <div class="plan-cta">
+                                <button class="btn btn-secondary" onclick="handlePlanSelection('free')" id="freePlanBtn">
+                                    Current Plan
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Pro Monthly Plan -->
+                        <div class="pricing-card featured">
+                            <div class="plan-name">Pro Monthly</div>
+                            <div class="plan-price">
+                                <span class="currency">$</span>9
+                                <span class="period">/ month</span>
+                            </div>
+                            <div class="plan-description">Ideal for regular users who need advanced features</div>
+                            
+                            <ul class="plan-features">
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Everything in Free</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Bulk file processing</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> 100MB file size limit</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Server-side processing</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Advanced compression</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Priority support</li>
+                            </ul>
+                            
+                            <div class="plan-cta">
+                                <button class="btn btn-premium" onclick="handlePlanSelection('pro_monthly')" id="proMonthlyBtn">
+                                    Upgrade Now
+                                </button>
+                                <div id="proMonthlyCurrent" class="current-plan-badge hidden">Current Plan</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pro Annual Plan -->
+                        <div class="pricing-card">
+                            <div class="plan-name">Pro Annual</div>
+                            <div class="plan-price">
+                                <span class="currency">$</span>90
+                                <span class="period">/ year</span>
+                            </div>
+                            <div class="plan-description">Best value - save 17% compared to monthly billing</div>
+                            
+                            <ul class="plan-features">
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Everything in Pro Monthly</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> 17% savings</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> 200MB file size limit</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Extreme compression level</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Dedicated support</li>
+                                <li><svg class="feature-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Early access to new features</li>
+                            </ul>
+                            
+                            <div class="plan-cta">
+                                <button class="btn btn-premium" onclick="handlePlanSelection('pro_annual')" id="proAnnualBtn">
+                                    Upgrade Now
+                                </button>
+                                <div id="proAnnualCurrent" class="current-plan-badge hidden">Current Plan</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-section">
+                        <h3 class="faq-title">Frequently Asked Questions</h3>
+                        <div class="faq-grid">
+                            <div class="faq-item">
+                                <div class="faq-question">Can I change my plan later?</div>
+                                <div class="faq-answer">Yes, you can upgrade or downgrade your plan at any time. When upgrading, you'll get immediate access to the new features. When downgrading, the changes will take effect at the end of your billing cycle.</div>
+                            </div>
+                            <div class="faq-item">
+                                <div class="faq-question">Is there a free trial?</div>
+                                <div class="faq-answer">We don't offer a free trial for our Pro plans, but you can use our Free plan indefinitely to test our basic features. All Pro plans come with a 14-day money-back guarantee.</div>
+                            </div>
+                            <div class="faq-item">
+                                <div class="faq-question">What payment methods do you accept?</div>
+                                <div class="faq-answer">We accept all major credit cards, PayPal, and in some regions, bank transfers. All payments are processed securely through our payment partners.</div>
+                            </div>
+                            <div class="faq-item">
+                                <div class="faq-question">How does the bulk processing work?</div>
+                                <div class="faq-answer">Our bulk processing allows you to upload multiple PDF files at once (up to 100 files). The system will process them sequentially and provide you with a ZIP download containing all compressed files.</div>
+                            </div>
+                            <div class="faq-item">
+                                <div class="faq-question">Can I cancel my subscription?</div>
+                                <div class="faq-answer">Yes, you can cancel your subscription at any time. You'll continue to have access to Pro features until the end of your billing period, after which your account will revert to the Free plan.</div>
+                            </div>
+                            <div class="faq-item">
+                                <div class="faq-question">Is my data secure?</div>
+                                <div class="faq-answer">Absolutely. We use industry-standard encryption for all file transfers and processing. Your files are automatically deleted from our servers after 24 hours, and we never share your data with third parties.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Auth Modal -->
+<div id="authModal" class="modal-overlay">
+    <!-- Existing auth modal content -->
+</div>
+
+<script>
+// ... Existing JavaScript code ...
+
+// Update the switchTab function to handle the new pricing tab
+function switchTab(tabName) {
+    // Update tab buttons
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+    
+    // Update tab panels
+    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+    document.getElementById(`${tabName}Tab`).classList.add('active');
+    
+    appState.currentTab = tabName;
+    
+    // If switching to pricing tab, update the UI based on current plan
+    if (tabName === 'pricing') {
+        updatePricingUI();
+    }
+}
+
+// Function to update pricing UI based on current user plan
+function updatePricingUI() {
+    const user = appState.user;
+    const freePlanBtn = document.getElementById('freePlanBtn');
+    const proMonthlyBtn = document.getElementById('proMonthlyBtn');
+    const proAnnualBtn = document.getElementById('proAnnualBtn');
+    const proMonthlyCurrent = document.getElementById('proMonthlyCurrent');
+    const proAnnualCurrent = document.getElementById('proAnnualCurrent');
+    
+    // Reset all buttons
+    freePlanBtn.textContent = 'Current Plan';
+    freePlanBtn.classList.remove('btn-premium');
+    freePlanBtn.classList.add('btn-secondary');
+    freePlanBtn.disabled = true;
+    
+    proMonthlyBtn.textContent = 'Upgrade Now';
+    proMonthlyBtn.classList.remove('btn-secondary');
+    proMonthlyBtn.classList.add('btn-premium');
+    proMonthlyBtn.disabled = false;
+    
+    proAnnualBtn.textContent = 'Upgrade Now';
+    proAnnualBtn.classList.remove('btn-secondary');
+    proAnnualBtn.classList.add('btn-premium');
+    proAnnualBtn.disabled = false;
+    
+    // Hide all current plan badges
+    proMonthlyCurrent.classList.add('hidden');
+    proAnnualCurrent.classList.add('hidden');
+    
+    // Update based on current plan
+    if (user) {
+        if (user.plan === 'Free') {
+            freePlanBtn.textContent = 'Current Plan';
+            freePlanBtn.disabled = true;
+        } else if (user.plan === 'Pro' || user.plan === 'Pro Monthly') {
+            freePlanBtn.textContent = 'Downgrade';
+            freePlanBtn.disabled = false;
+            freePlanBtn.onclick = () => downgradeToFree();
+            
+            proMonthlyBtn.textContent = 'Current Plan';
+            proMonthlyBtn.classList.remove('btn-premium');
+            proMonthlyBtn.classList.add('btn-secondary');
+            proMonthlyBtn.disabled = true;
+            proMonthlyCurrent.classList.remove('hidden');
+        } else if (user.plan === 'Pro Annual') {
+            freePlanBtn.textContent = 'Downgrade';
+            freePlanBtn.disabled = false;
+            freePlanBtn.onclick = () => downgradeToFree();
+            
+            proAnnualBtn.textContent = 'Current Plan';
+            proAnnualBtn.classList.remove('btn-premium');
+            proAnnualBtn.classList.add('btn-secondary');
+            proAnnualBtn.disabled = true;
+            proAnnualCurrent.classList.remove('hidden');
+        }
+    } else {
+        // User is not logged in
+        freePlanBtn.textContent = 'Get Started';
+        freePlanBtn.disabled = false;
+        freePlanBtn.onclick = () => showAuthModal('register');
+    }
+}
+
+// Function to handle plan selection
+function handlePlanSelection(plan) {
+    if (!appState.user) {
+        // If user is not logged in, show auth modal with register form
+        showAuthModal('register');
+        return;
+    }
+    
+    // Check if user is already on this plan
+    if ((plan === 'free' && appState.user.plan === 'Free') ||
+        (plan === 'pro_monthly' && (appState.user.plan === 'Pro' || appState.user.plan === 'Pro Monthly')) ||
+        (plan === 'pro_annual' && appState.user.plan === 'Pro Annual')) {
+        showNotification('You are already on this plan', 'info');
+        return;
+    }
+    
+    // Handle upgrade/downgrade
+    if (plan === 'free') {
+        downgradeToFree();
+    } else {
+        upgradeToPro(plan);
+    }
+}
+
+// Function to upgrade to Pro plan
+async function upgradeToPro(plan) {
+    try {
+        showNotification('Processing your upgrade...', 'info');
+        
+        // Call backend API to create subscription
+        const planId = plan === 'pro_monthly' ? 'price_monthly' : 'price_annual';
+        const paymentMethod = 'card'; // In a real implementation, this would come from a payment form
+        
+        const response = await backendAPI.createSubscription(planId, paymentMethod);
+        
+        // Update user plan
+        appState.user.plan = plan === 'pro_monthly' ? 'Pro Monthly' : 'Pro Annual';
+        localStorage.setItem('pdfsmaller_user', JSON.stringify(appState.user));
+        
+        // Update UI
+        auth.updateUI();
+        updatePricingUI();
+        
+        showNotification('Successfully upgraded to Pro!', 'success');
+    } catch (error) {
+        console.error('Upgrade failed:', error);
+        showNotification('Upgrade failed: ' + error.message, 'error');
+    }
+}
+
+// Function to downgrade to Free plan
+async function downgradeToFree() {
+    try {
+        showNotification('Processing your downgrade...', 'info');
+        
+        // Call backend API to cancel subscription
+        await backendAPI.cancelSubscription();
+        
+        // Update user plan
+        appState.user.plan = 'Free';
+        localStorage.setItem('pdfsmaller_user', JSON.stringify(appState.user));
+        
+        // Update UI
+        auth.updateUI();
+        updatePricingUI();
+        
+        showNotification('Your plan has been changed to Free. Pro features will be available until the end of your billing period.', 'success');
+    } catch (error) {
+        console.error('Downgrade failed:', error);
+        showNotification('Downgrade failed: ' + error.message, 'error');
+    }
+}
+
+// Update AuthenticationManager to handle plan information
+AuthenticationManager.prototype.updateUI = function() {
+    const guestActions = document.getElementById('guestActions');
+    const userActions = document.getElementById('userActions');
+    const bulkUpgradePrompt = document.getElementById('bulkUpgradePrompt');
+    const bulkProcessingArea = document.getElementById('bulkProcessingArea');
+    const useServerCheckbox = document.getElementById('useServerProcessing');
+
+    if (this.appState.user) {
+        guestActions.classList.add('hidden');
+        userActions.classList.remove('hidden');
+        
+        document.getElementById('userInitials').textContent = 
+            this.appState.user.name.charAt(0).toUpperCase();
+        document.getElementById('userName').textContent = this.appState.user.name;
+        document.getElementById('userPlan').textContent = this.appState.user.plan;
+
+        // Enable/disable features based on plan
+        if (this.appState.user.plan.includes('Pro')) {
+            bulkUpgradePrompt.classList.add('hidden');
+            bulkProcessingArea.classList.remove('hidden');
+            useServerCheckbox.disabled = false;
+        } else {
+            bulkUpgradePrompt.classList.remove('hidden');
+            bulkProcessingArea.classList.add('hidden');
+            useServerCheckbox.disabled = true;
+        }
+        
+        // Update pricing UI if on pricing tab
+        if (appState.currentTab === 'pricing') {
+            updatePricingUI();
+        }
+    } else {
+        guestActions.classList.remove('hidden');
+        userActions.classList.add('hidden');
+        bulkUpgradePrompt.classList.remove('hidden');
+        bulkProcessingArea.classList.add('hidden');
+        useServerCheckbox.disabled = true;
+        
+        // Update pricing UI if on pricing tab
+        if (appState.currentTab === 'pricing') {
+            updatePricingUI();
+        }
+    }
+};
+
+// Update the BackendAPI class with subscription methods
+BackendAPI.prototype.createSubscription = async function(planId, paymentMethodId) {
+    return await this.request('/api/subscriptions/create', {
+        method: 'POST',
+        body: JSON.stringify({ planId, paymentMethodId })
+    });
+};
+
+BackendAPI.prototype.cancelSubscription = async function() {
+    return await this.request('/api/subscriptions/cancel', {
+        method: 'POST'
+    });
+};
+
+BackendAPI.prototype.getSubscription = async function() {
+    return await this.request('/api/subscriptions');
+};
+
+// Initialize the application
+const appState = new AppState();
+const auth = new AuthenticationManager(appState);
+const compressor = new PDFCompressor(appState);
+const backendAPI = new BackendAPI();
+
+// ... Rest of the existing JavaScript code ...
+
+// Export new functions for global access
+window.handlePlanSelection = handlePlanSelection;
+window.upgradeToPro = upgradeToPro;
+window.downgradeToFree = downgradeToFree;
+</script>
+</body>
+</html>
