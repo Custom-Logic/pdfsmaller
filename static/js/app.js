@@ -171,11 +171,46 @@ function switchTab(tabName) {
 }
 
 function updatePricingUI() {
-    // ... logic to update pricing buttons based on user plan
+    const userPlan = auth.appState.user?.plan || 'Free';
+
+    document.getElementById('freePlanBtn').textContent = 'Current Plan';
+    document.getElementById('freePlanBtn').disabled = true;
+
+    if (userPlan === 'Pro' || userPlan === 'Business') {
+        document.getElementById('proPlanBtn').textContent = 'Current Plan';
+        document.getElementById('proPlanBtn').disabled = true;
+    } else {
+        document.getElementById('proPlanBtn').textContent = 'Upgrade Now';
+        document.getElementById('proPlanBtn').disabled = false;
+    }
+
+    if (userPlan === 'Business') {
+        document.getElementById('businessPlanBtn').textContent = 'Current Plan';
+        document.getElementById('businessPlanBtn').disabled = true;
+    } else {
+        document.getElementById('businessPlanBtn').textContent = 'Contact Sales';
+        document.getElementById('businessPlanBtn').disabled = false;
+    }
 }
 
 function handlePlanSelection(plan) {
-    // ... logic to handle plan selection
+    if (!auth.appState.user) {
+        showAuthModal('register');
+        return;
+    }
+
+    switch (plan) {
+        case 'pro':
+            showNotification('Pro plan selected! Please complete payment.');
+            // In a real app, this would trigger a payment modal
+            break;
+        case 'business':
+            showNotification('Business plan selected! Please contact sales.');
+            // In a real app, this would open a contact form
+            break;
+        default:
+            break;
+    }
 }
 
 function upgradeToPro(plan) {
